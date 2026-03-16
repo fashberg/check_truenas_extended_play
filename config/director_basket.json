@@ -1,0 +1,710 @@
+{
+  "DatafieldCategory": {
+    "TrueNAS": {
+      "category_name": "TrueNAS",
+      "description": "TrueNAS monitoring check fields"
+    }
+  },
+  "DataList": {
+    "truenas_check_types": {
+      "list_name": "truenas_check_types",
+      "owner": "icingaadmin",
+      "entries": {
+        "alerts": {
+          "entry_name": "alerts",
+          "entry_value": "alerts",
+          "format": "string"
+        },
+        "apps": {
+          "entry_name": "apps",
+          "entry_value": "apps",
+          "format": "string"
+        },
+        "datasets": {
+          "entry_name": "datasets",
+          "entry_value": "datasets",
+          "format": "string"
+        },
+        "zpool": {
+          "entry_name": "zpool",
+          "entry_value": "zpool",
+          "format": "string"
+        },
+        "zpool_capacity": {
+          "entry_name": "zpool_capacity",
+          "entry_value": "zpool_capacity",
+          "format": "string"
+        },
+        "repl": {
+          "entry_name": "repl",
+          "entry_value": "repl",
+          "format": "string"
+        },
+        "update": {
+          "entry_name": "update",
+          "entry_value": "update",
+          "format": "string"
+        },
+        "sys_cpu": {
+          "entry_name": "sys_cpu",
+          "entry_value": "sys_cpu",
+          "format": "string"
+        },
+        "sys_memory": {
+          "entry_name": "sys_memory",
+          "entry_value": "sys_memory",
+          "format": "string"
+        },
+        "sys_network": {
+          "entry_name": "sys_network",
+          "entry_value": "sys_network",
+          "format": "string"
+        }
+      }
+    }
+  },
+  "Datafield": {
+    "1": {
+      "uuid": "552a6abf-fd11-44ca-8edb-18c49de950c7",
+      "varname": "truenas_hostname",
+      "caption": "TrueNAS Hostname",
+      "description": "Hostname or IP address of the TrueNAS server",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeString",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {
+        "visibility": "visible"
+      }
+    },
+    "2": {
+      "uuid": "8ee842f8-849b-4ed8-ab6b-57448a6a8119",
+      "varname": "truenas_apikey",
+      "caption": "TrueNAS API-Key/Passwort",
+      "description": "TrueNAS API key (format: N-xxxx...) oder Passwort bei Username-Auth",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeString",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {
+        "visibility": "hidden"
+      }
+    },
+    "3": {
+      "uuid": "11e9c36a-8087-4a88-80a3-1f0f7418c3db",
+      "varname": "truenas_type",
+      "caption": "Check Type",
+      "description": "Type of check to run",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeDatalist",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {
+        "datalist": "truenas_check_types",
+        "data_type": "string"
+      }
+    },
+    "4": {
+      "uuid": "42759786-e3be-493a-b210-22170289fc41",
+      "varname": "truenas_no_verify_cert",
+      "caption": "Skip SSL Certificate Verification",
+      "description": "Do not verify the TrueNAS SSL certificate (useful for self-signed certs)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeBoolean",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "5": {
+      "uuid": "983334ff-e21f-4079-96f8-67b186cfc37f",
+      "varname": "truenas_perfdata",
+      "caption": "Enable Perfdata",
+      "description": "Emit performance data (for capacity, CPU, memory, network checks)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeBoolean",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "6": {
+      "uuid": "deacb774-c188-48db-b31c-41885746eaf3",
+      "varname": "truenas_ignore_dismissed",
+      "caption": "Ignore Dismissed Alerts",
+      "description": "Skip alerts that have already been dismissed in TrueNAS",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeBoolean",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "7": {
+      "uuid": "6e4006b3-8735-4e61-b940-a5c0965a3a27",
+      "varname": "truenas_zpoolname",
+      "caption": "ZPool Name",
+      "description": "Filter to a specific ZPool (leave empty for all pools)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeString",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {
+        "visibility": "visible"
+      }
+    },
+    "8": {
+      "uuid": "c789ca6f-2b40-44cf-98a4-c8774af78985",
+      "varname": "truenas_zpool_warn",
+      "caption": "ZPool / Dataset Warning %",
+      "description": "Used space warning threshold in percent (default: 80)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "9": {
+      "uuid": "db286f35-8c21-4cc4-8075-b98363e7f4ec",
+      "varname": "truenas_zpool_crit",
+      "caption": "ZPool / Dataset Critical %",
+      "description": "Used space critical threshold in percent (default: 90)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "10": {
+      "uuid": "9067a986-e7b3-4573-bb50-500ed8202fa9",
+      "varname": "truenas_cpu_warn",
+      "caption": "CPU Warning %",
+      "description": "CPU usage warning threshold % avg/1h (default: 80)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "11": {
+      "uuid": "2c6f05dd-2a81-4f0e-a70c-c16505c4f61f",
+      "varname": "truenas_cpu_crit",
+      "caption": "CPU Critical %",
+      "description": "CPU usage critical threshold % avg/1h (default: 95)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "12": {
+      "uuid": "b007d2a4-f8b3-4820-bfd2-ca45f846a9dc",
+      "varname": "truenas_mem_warn",
+      "caption": "Memory Warning %",
+      "description": "Memory usage warning threshold % (default: 80)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "13": {
+      "uuid": "8f6c0300-5a6d-433c-867c-bce6d7d96a0e",
+      "varname": "truenas_mem_crit",
+      "caption": "Memory Critical %",
+      "description": "Memory usage critical threshold % (default: 95)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "14": {
+      "uuid": "2eed1bce-7387-4ebb-b707-847532afbc27",
+      "varname": "truenas_mem_total_mb",
+      "caption": "Total RAM (MB)",
+      "description": "Total physical RAM in MB (e.g. 65536 for 64 GB). Required when not using READONLY_ADMIN. Leave 0 for auto-detect.",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "15": {
+      "uuid": "a37e2e8f-5a6c-452b-892b-c1039e4d63d7",
+      "varname": "truenas_net_warn",
+      "caption": "Network Warning (Kbit/s)",
+      "description": "Network traffic warning threshold in Kbit/s (0 = disabled)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "16": {
+      "uuid": "60832fc7-7ef1-4848-8a70-99ce9bc3e03c",
+      "varname": "truenas_net_crit",
+      "caption": "Network Critical (Kbit/s)",
+      "description": "Network traffic critical threshold in Kbit/s (0 = disabled)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "17": {
+      "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "varname": "truenas_user",
+      "caption": "TrueNAS Username",
+      "description": "Username for password-based login (optional, API key used if omitted)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeString",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {
+        "visibility": "visible"
+      }
+    },
+    "18": {
+      "uuid": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "varname": "truenas_no_ssl",
+      "caption": "Disable SSL",
+      "description": "Use ws:// instead of wss:// (disable SSL)",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeBoolean",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    },
+    "19": {
+      "uuid": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "varname": "truenas_debug",
+      "caption": "Enable Debug Output",
+      "description": "Enable debug output",
+      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeBoolean",
+      "format": null,
+      "category": "TrueNAS",
+      "settings": {}
+    }
+  },
+  "Command": {
+    "check_truenas": {
+      "object_name": "check_truenas",
+      "object_type": "object",
+      "command": "PluginDir + /check_truenas_extended_play.py",
+      "arguments": {
+        "-H": {
+          "description": "TrueNAS hostname or IP address",
+          "required": true,
+          "value": "$truenas_hostname$"
+        },
+        "-p": {
+          "description": "API key",
+          "required": true,
+          "value": "$truenas_apikey$"
+        },
+        "-t": {
+          "description": "Check type",
+          "required": true,
+          "value": "$truenas_type$"
+        },
+        "-nv": {
+          "description": "Skip SSL certificate verification",
+          "set_if": "$truenas_no_verify_cert$"
+        },
+        "-zp": {
+          "description": "Enable perfdata output",
+          "set_if": "$truenas_perfdata$"
+        },
+        "-ig": {
+          "description": "Ignore dismissed alerts",
+          "set_if": "$truenas_ignore_dismissed$"
+        },
+        "-pn": {
+          "description": "ZPool name filter",
+          "set_if": "$truenas_zpoolname$",
+          "value": "$truenas_zpoolname$"
+        },
+        "-zw": {
+          "description": "ZPool/dataset warning threshold %",
+          "set_if": "$truenas_zpool_warn$",
+          "value": "$truenas_zpool_warn$"
+        },
+        "-zc": {
+          "description": "ZPool/dataset critical threshold %",
+          "set_if": "$truenas_zpool_crit$",
+          "value": "$truenas_zpool_crit$"
+        },
+        "-cw": {
+          "description": "CPU warning threshold %",
+          "set_if": "$truenas_cpu_warn$",
+          "value": "$truenas_cpu_warn$"
+        },
+        "-cc": {
+          "description": "CPU critical threshold %",
+          "set_if": "$truenas_cpu_crit$",
+          "value": "$truenas_cpu_crit$"
+        },
+        "-mw": {
+          "description": "Memory warning threshold %",
+          "set_if": "$truenas_mem_warn$",
+          "value": "$truenas_mem_warn$"
+        },
+        "-mc": {
+          "description": "Memory critical threshold %",
+          "set_if": "$truenas_mem_crit$",
+          "value": "$truenas_mem_crit$"
+        },
+        "-mt": {
+          "description": "Total RAM in MB",
+          "set_if": "$truenas_mem_total_mb$",
+          "value": "$truenas_mem_total_mb$"
+        },
+        "-nw": {
+          "description": "Network warning threshold Kbit/s",
+          "set_if": "$truenas_net_warn$",
+          "value": "$truenas_net_warn$"
+        },
+        "-nc": {
+          "description": "Network critical threshold Kbit/s",
+          "set_if": "$truenas_net_crit$",
+          "value": "$truenas_net_crit$"
+        },
+        "-u": {
+          "description": "Username for password-based login",
+          "set_if": "$truenas_user$",
+          "value": "$truenas_user$"
+        },
+        "-ns": {
+          "description": "Disable SSL (use ws:// instead of wss://)",
+          "set_if": "$truenas_no_ssl$"
+        },
+        "-d": {
+          "description": "Enable debug output",
+          "set_if": "$truenas_debug$"
+        }
+      },
+      "fields": [
+        {
+          "datafield_id": 1,
+          "is_required": "y",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 2,
+          "is_required": "y",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 3,
+          "is_required": "y",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 5,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 19,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    }
+  },
+  "HostTemplate": {
+    "TrueNAS Host": {
+      "object_name": "TrueNAS Host",
+      "object_type": "template",
+      "fields": [
+        {
+          "datafield_id": 2,
+          "is_required": "y",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 4,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 17,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 18,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    }
+  },
+  "ServiceTemplate": {
+    "check_truenas_generic": {
+      "object_name": "check_truenas_generic",
+      "object_type": "template",
+      "check_command": "check_truenas",
+      "vars": {
+        "truenas_hostname": "$host.address$",
+        "truenas_perfdata": true,
+        "truenas_zpool_warn": 80,
+        "truenas_zpool_crit": 90,
+        "truenas_cpu_warn": 80,
+        "truenas_cpu_crit": 95,
+        "truenas_mem_warn": 80,
+        "truenas_mem_crit": 95
+      },
+      "fields": [
+        {
+          "datafield_id": 5,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Alerts": {
+      "object_name": "TrueNAS Alerts",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "alerts"
+      },
+      "fields": [
+        {
+          "datafield_id": 6,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Apps": {
+      "object_name": "TrueNAS Apps",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "apps"
+      }
+    },
+    "TrueNAS ZPool Health": {
+      "object_name": "TrueNAS ZPool Health",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "zpool"
+      },
+      "fields": [
+        {
+          "datafield_id": 7,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS ZPool Capacity": {
+      "object_name": "TrueNAS ZPool Capacity",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "zpool_capacity"
+      },
+      "fields": [
+        {
+          "datafield_id": 7,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 8,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 9,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Datasets": {
+      "object_name": "TrueNAS Datasets",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "datasets"
+      },
+      "fields": [
+        {
+          "datafield_id": 8,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 9,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Replication": {
+      "object_name": "TrueNAS Replication",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "repl"
+      }
+    },
+    "TrueNAS Update": {
+      "object_name": "TrueNAS Update",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "update"
+      }
+    },
+    "TrueNAS CPU": {
+      "object_name": "TrueNAS CPU",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "sys_cpu"
+      },
+      "fields": [
+        {
+          "datafield_id": 10,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 11,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Memory": {
+      "object_name": "TrueNAS Memory",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "sys_memory"
+      },
+      "fields": [
+        {
+          "datafield_id": 12,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 13,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 14,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    },
+    "TrueNAS Network": {
+      "object_name": "TrueNAS Network",
+      "object_type": "template",
+      "imports": [
+        "check_truenas_generic"
+      ],
+      "vars": {
+        "truenas_type": "sys_network"
+      },
+      "fields": [
+        {
+          "datafield_id": 15,
+          "is_required": "n",
+          "var_filter": null
+        },
+        {
+          "datafield_id": 16,
+          "is_required": "n",
+          "var_filter": null
+        }
+      ]
+    }
+  },
+  "ServiceSet": {
+    "TrueNAS": {
+      "object_name": "TrueNAS",
+      "object_type": "template",
+      "assign_filter": "\"TrueNAS Host\"=host.templates",
+      "services": {
+        "TrueNAS Alerts": {
+          "object_name": "TrueNAS Alerts",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Alerts"
+          ]
+        },
+        "TrueNAS Apps": {
+          "object_name": "TrueNAS Apps",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Apps"
+          ]
+        },
+        "TrueNAS ZPool Health": {
+          "object_name": "TrueNAS ZPool Health",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS ZPool Health"
+          ]
+        },
+        "TrueNAS ZPool Capacity": {
+          "object_name": "TrueNAS ZPool Capacity",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS ZPool Capacity"
+          ]
+        },
+        "TrueNAS Datasets": {
+          "object_name": "TrueNAS Datasets",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Datasets"
+          ]
+        },
+        "TrueNAS Replication": {
+          "object_name": "TrueNAS Replication",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Replication"
+          ]
+        },
+        "TrueNAS Update": {
+          "object_name": "TrueNAS Update",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Update"
+          ]
+        },
+        "TrueNAS CPU": {
+          "object_name": "TrueNAS CPU",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS CPU"
+          ]
+        },
+        "TrueNAS Memory": {
+          "object_name": "TrueNAS Memory",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Memory"
+          ]
+        },
+        "TrueNAS Network": {
+          "object_name": "TrueNAS Network",
+          "object_type": "object",
+          "imports": [
+            "TrueNAS Network"
+          ]
+        }
+      }
+    }
+  }
+}

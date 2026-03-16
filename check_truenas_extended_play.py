@@ -712,9 +712,9 @@ def main():
     parser.add_argument('-d', '--debug', required=False, action='store_true',
                         help='Display debugging information')
     parser.add_argument('-zw', '--zpool-warn', required=False, type=int, default=default_zpool_warning_percent,
-                        help='ZPool/dataset warning threshold %% (default: %d)' % default_zpool_warning_percent)
+                        help=f'ZPool/dataset warning threshold %% (default: {default_zpool_warning_percent})')
     parser.add_argument('-zc', '--zpool-critical', required=False, type=int, default=default_zool_critical_percent,
-                        help='ZPool/dataset critical threshold %% (default: %d)' % default_zool_critical_percent)
+                        help=f'ZPool/dataset critical threshold %% (default: {default_zool_critical_percent})')
     parser.add_argument('-zp', '--zpool-perfdata', required=False, action='store_true',
                         help='Add perfdata to output (zpool_capacity, datasets, sys_cpu, sys_memory, sys_network)')
     parser.add_argument('-cw', '--cpu-warn', required=False, type=int, default=80,
