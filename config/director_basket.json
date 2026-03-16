@@ -203,16 +203,6 @@
       "category": "TrueNAS",
       "settings": {}
     },
-    "14": {
-      "uuid": "2eed1bce-7387-4ebb-b707-847532afbc27",
-      "varname": "truenas_mem_total_mb",
-      "caption": "Total RAM (MB)",
-      "description": "Total physical RAM in MB (e.g. 65536 for 64 GB). Required when not using READONLY_ADMIN. Leave 0 for auto-detect.",
-      "datatype": "Icinga\\Module\\Director\\DataType\\DataTypeNumber",
-      "format": null,
-      "category": "TrueNAS",
-      "settings": {}
-    },
     "15": {
       "uuid": "a37e2e8f-5a6c-452b-892b-c1039e4d63d7",
       "varname": "truenas_net_warn",
@@ -333,11 +323,6 @@
           "description": "Memory critical threshold %",
           "set_if": "$truenas_mem_crit$",
           "value": "$truenas_mem_crit$"
-        },
-        "-mt": {
-          "description": "Total RAM in MB",
-          "set_if": "$truenas_mem_total_mb$",
-          "value": "$truenas_mem_total_mb$"
         },
         "-nw": {
           "description": "Network warning threshold Kbit/s",
@@ -595,11 +580,6 @@
         },
         {
           "datafield_id": 13,
-          "is_required": "n",
-          "var_filter": null
-        },
-        {
-          "datafield_id": 14,
           "is_required": "n",
           "var_filter": null
         }

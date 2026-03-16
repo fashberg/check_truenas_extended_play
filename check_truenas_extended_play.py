@@ -50,7 +50,7 @@ class Startup(object):
 
     def __init__(self, hostname, user, secret, use_ssl, verify_cert, ignore_dismissed_alerts,
                  debug_logging, zpool_name, zpool_warn, zpool_critical, show_zpool_perfdata,
-                 cpu_warn, cpu_critical, mem_warn, mem_critical, mem_total_mb, net_warn, net_critical):
+                 cpu_warn, cpu_critical, mem_warn, mem_critical, net_warn, net_critical):
         self._hostname = hostname
         self._user = user
         self._secret = secret
@@ -66,7 +66,6 @@ class Startup(object):
         self._cpu_critical = cpu_critical
         self._mem_warn = mem_warn
         self._mem_critical = mem_critical
-        self._mem_total_mb = mem_total_mb
         self._net_warn = net_warn
         self._net_critical = net_critical
 
@@ -566,12 +565,8 @@ class Startup(object):
             avail_bytes = aggs['mean']['available']
             avail_mb = avail_bytes / BYTES_IN_MB
 
-            # Total RAM: prefer explicit parameter, fall back to system.info (requires READONLY_ADMIN role)
-            if self._mem_total_mb > 0:
-                total_mb = self._mem_total_mb
-            else:
-                sys_info = self.call('system.info')
-                total_mb = sys_info['physmem'] / BYTES_IN_MB
+            sys_info = self.call('system.info')
+            total_mb = sys_info['physmem'] / BYTES_IN_MB
 
             used_mb = total_mb - avail_mb
             used_pct = (used_mb / total_mb) * 100
@@ -725,8 +720,6 @@ def main():
                         help='Memory warning threshold %% (default: 80)')
     parser.add_argument('-mc', '--mem-critical', required=False, type=int, default=95,
                         help='Memory critical threshold %% (default: 95)')
-    parser.add_argument('-mt', '--mem-total-mb', required=False, type=int, default=0,
-                        help='Total RAM in MB (e.g. 65536). Avoids system.info call (needs READONLY_ADMIN). Default: 0 = auto-detect.')
     parser.add_argument('-nw', '--net-warn', required=False, type=int, default=0,
                         help='Network warning threshold Kbit/s (0 = disabled)')
     parser.add_argument('-nc', '--net-critical', required=False, type=int, default=0,
@@ -746,7 +739,7 @@ def main():
         args.ignore_dismissed_alerts, args.debug, args.zpoolname,
         args.zpool_warn, args.zpool_critical, args.zpool_perfdata,
         args.cpu_warn, args.cpu_critical,
-        args.mem_warn, args.mem_critical, args.mem_total_mb,
+        args.mem_warn, args.mem_critical,
         args.net_warn, args.net_critical
     )
 

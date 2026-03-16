@@ -21,7 +21,7 @@ Original script by Goran Tornqvist, extended by Stewart Loving-Gibbard, Folke As
 | `repl` | Replication task health | |
 | `update` | TrueNAS software update available? | |
 | `sys_cpu` | CPU usage avg/1h from reporting | `-cw`, `-cc`, `-zp` |
-| `sys_memory` | RAM usage avg/1h from reporting | `-mw`, `-mc`, `-mt`, `-zp` |
+| `sys_memory` | RAM usage avg/1h from reporting | `-mw`, `-mc`, `-zp` |
 | `sys_network` | Network interface traffic avg/1h | `-nw`, `-nc`, `-zp` |
 
 ---
@@ -59,8 +59,6 @@ This assigns the `READONLY_ADMIN` role, which grants read access to all resource
 > `ALERT_LIST_READ`, `APPS_READ`, `POOL_READ`, `DATASET_READ`,
 > `REPLICATION_TASK_READ`, `SYSTEM_UPDATE_READ`, `REPORTING_READ`.
 > Assign it to a new local group, and add your user to that group.
-> Note: with minimal roles, `sys_memory` auto-detect of total RAM is unavailable —
-> use the `-mt` argument to specify it manually.
 
 ### 3. Create an API Key for the monitoring user
 
@@ -103,8 +101,6 @@ check_truenas_extended_play.py -H <host> -p <apikey> -t <type> [options]
   -cc, --cpu-critical   CPU critical threshold % avg/1h (default: 95)
   -mw, --mem-warn       Memory warning threshold % (default: 80)
   -mc, --mem-critical   Memory critical threshold % (default: 95)
-  -mt, --mem-total-mb   Total RAM in MB (e.g. 65536). Avoids system.info call.
-                        Required when using minimal roles (not READONLY_ADMIN).
   -nw, --net-warn       Network warning threshold Kbit/s (0 = disabled)
   -nc, --net-critical   Network critical threshold Kbit/s (0 = disabled)
 ```
@@ -136,8 +132,8 @@ check_truenas_extended_play.py -H nas.example.com -p 4-xxxxx -t update -nv
 # CPU (warn 80%, crit 95%, with perfdata)
 check_truenas_extended_play.py -H nas.example.com -p 4-xxxxx -t sys_cpu -cw 80 -cc 95 -zp -nv
 
-# Memory (warn 80%, crit 95%, 64 GB total, with perfdata)
-check_truenas_extended_play.py -H nas.example.com -p 4-xxxxx -t sys_memory -mw 80 -mc 95 -mt 65536 -zp -nv
+# Memory (warn 80%, crit 95%, with perfdata)
+check_truenas_extended_play.py -H nas.example.com -p 4-xxxxx -t sys_memory -mw 80 -mc 95 -zp -nv
 
 # Network (no thresholds, perfdata only)
 check_truenas_extended_play.py -H nas.example.com -p 4-xxxxx -t sys_network -zp -nv
@@ -171,7 +167,6 @@ object Host "nas01" {
   address                     = "nas.example.com"
   vars.truenas_apikey         = "4-xxxxxxx"   // set once — inherited by all services
   vars.truenas_no_verify_cert = true           // for self-signed TrueNAS certs
-  vars.truenas_mem_total_mb   = 65536          // required without READONLY_ADMIN
 }
 ```
 
@@ -191,7 +186,7 @@ The basket creates:
 | Object | Details |
 |---|---|
 | `DataList` | `truenas_check_types` — dropdown with all 10 check types |
-| `Datafield` | 16 fields for all parameters (shown as UI form fields in Director) |
+| `Datafield` | 18 fields for all parameters (shown as UI form fields in Director) |
 | `CheckCommand` | `check_truenas` with all arguments wired to Datafields |
 | `HostTemplate` | `TrueNAS Host` — import this on your host; set `truenas_apikey` here once |
 | `ServiceTemplate` | `check_truenas_generic` base template + one per check type |
@@ -199,9 +194,9 @@ The basket creates:
 
 **Workflow after import:**
 
-1. **Host:** Create or edit your TrueNAS host in Director → import template `TrueNAS Host` → fill in `TrueNAS API Key` (and optionally `Total RAM (MB)`). The key is stored on the host and shared by all services.
+1. **Host:** Create or edit your TrueNAS host in Director → import template `TrueNAS Host` → fill in `TrueNAS API-Key/Passwort`. The key is stored on the host and shared by all services.
 
-2. **Services:** Assign the ServiceSet `TrueNAS` to the host (via the host's *Service Sets* tab). This adds all 10 checks at once, each importing its own service template which in turn inherits `check_truenas_generic`.
+2. **Services:** All 10 checks are assigned automatically via the ServiceSet's assign filter (`"TrueNAS Host" = host.templates`). No manual step required.
 
 3. **Deploy** the configuration.
 
